@@ -11,15 +11,14 @@ export function QuestionCard({ question, selectedOption, onSelectOption, showRes
   const options = ['a', 'b', 'c', 'd'];
 
   return (
-    <div className="bg-white rounded-3xl shadow-xl p-8 border-4 border-orange-300 max-w-2xl w-full">
-      <h2 className="text-xl font-bold mb-6 text-orange-900 leading-relaxed">
+    <div className="bg-card text-card-foreground rounded-3xl shadow-lg p-8 border border-border max-w-2xl w-full">
+      <h2 className="text-xl font-bold mb-6 leading-relaxed">
         {question.question}
       </h2>
 
       {question.image && (
         <div className="mb-4">
-            {/* Image handling would go here if we had the assets */}
-            <div className="bg-gray-200 h-40 rounded-xl flex items-center justify-center text-gray-500">
+            <div className="bg-muted h-40 rounded-xl flex items-center justify-center text-muted-foreground">
                 [Image: {question.image}]
             </div>
         </div>
@@ -30,21 +29,23 @@ export function QuestionCard({ question, selectedOption, onSelectOption, showRes
           const isSelected = selectedOption === opt;
           const isCorrect = question.answer === opt;
 
-          let cardClass = "w-full text-left p-4 rounded-xl border-2 transition-all duration-200 transform hover:scale-[1.02] ";
+          let cardClass = "w-full text-left p-4 rounded-xl border transition-all duration-200 transform hover:scale-[1.01] ";
 
           if (showResult) {
             if (isCorrect) {
-              cardClass += "bg-green-100 border-green-500 text-green-800";
+              cardClass += "bg-green-100 dark:bg-green-900 border-green-500 text-green-800 dark:text-green-100";
             } else if (isSelected) {
-              cardClass += "bg-red-100 border-red-500 text-red-800";
+              cardClass += "bg-red-100 dark:bg-red-900 border-red-500 text-red-800 dark:text-red-100";
             } else {
-              cardClass += "bg-gray-50 border-gray-200 opacity-50";
+              cardClass += "bg-muted text-muted-foreground border-border opacity-50";
             }
           } else {
             if (isSelected) {
-              cardClass += "bg-orange-100 border-orange-500 text-orange-900 shadow-md";
+              // Primary color usage
+              cardClass += "bg-primary/10 border-primary text-primary shadow-sm";
             } else {
-              cardClass += "bg-white border-orange-100 hover:border-orange-300 hover:bg-orange-50 text-gray-700";
+              // Default state
+              cardClass += "bg-card hover:bg-muted border-input hover:border-primary/50 text-card-foreground";
             }
           }
 
