@@ -4,8 +4,10 @@
   "type": "module",
   "scripts": {
     "build": "react-router build",
+    "postbuild": "node scripts/postbuild.js",
     "dev": "react-router dev",
-    "start": "react-router-serve ./build/server/index.js",
+    "start": "vite preview",
+    "preview": "vite preview",
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {

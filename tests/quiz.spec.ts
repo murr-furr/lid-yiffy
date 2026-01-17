@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Quiz Application', () => {
   test('should load the quiz and interact correctly', async ({ page }) => {
     // Navigate to the quiz page
-    await page.goto('http://localhost:5173/quiz');
+    await page.goto('/lid-yiffy/quiz');
 
     // Wait for questions to load (handling Suspense fallback)
     await expect(page.locator('text=Loading Furry Questions')).toBeHidden({ timeout: 10000 });
@@ -34,7 +34,7 @@ test.describe('Quiz Application', () => {
   });
 
   test('should support keyboard navigation', async ({ page }) => {
-    await page.goto('http://localhost:5173/quiz');
+    await page.goto('/lid-yiffy/quiz');
     await expect(page.locator('text=Loading Furry Questions')).toBeHidden();
 
     // Tab to options
