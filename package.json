@@ -6,8 +6,8 @@
     "build": "react-router build",
     "postbuild": "node scripts/postbuild.js",
     "dev": "react-router dev",
-    "start": "vite preview",
-    "preview": "vite preview",
+    "start": "vite preview --host 0.0.0.0",
+    "preview": "vite preview --host 0.0.0.0",
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
