@@ -47,9 +47,10 @@
   --popover: hsl(0 0% 100%);
   --popover-foreground: hsl(20 14.3% 4.1%);
 
-  /* Orange Primary */
-  --primary: hsl(24.6 95% 53.1%);
-  --primary-foreground: hsl(60 9.1% 97.8%);
+  /* Orange Primary - Adjusted for WCAG AA contrast against black text, or dark enough for white text */
+  /* Using a slightly darker orange and black text for better legibility on bright orange */
+  --primary: hsl(25 95% 45%);
+  --primary-foreground: hsl(0 0% 100%);
 
   /* Slate/Zinc Secondary */
   --secondary: hsl(60 4.8% 95.9%);
@@ -83,8 +84,8 @@
     --popover-foreground: hsl(60 9.1% 97.8%);
 
     /* Darker Orange Primary */
-    --primary: hsl(20.5 90.2% 48.2%);
-    --primary-foreground: hsl(60 9.1% 97.8%);
+  --primary: hsl(25 90% 45%);
+  --primary-foreground: hsl(0 0% 100%);
 
     --secondary: hsl(12 6.5% 15.1%);
     --secondary-foreground: hsl(60 9.1% 97.8%);
