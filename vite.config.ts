@@ -7,6 +7,6 @@ export default defineConfig({
   plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
   base: "/lid-yiffy/",
   preview: {
-    allowedHosts: true,
+    allowedHosts: ["lid-yiffy-pr-6.onrender.com"],
   },
 });
