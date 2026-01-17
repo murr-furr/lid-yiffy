@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useOptimistic, useTransition, use, Suspense } from "react";
 import { Link } from "react-router";
-import questionsData from "../data/furry_questions.json";
 import { QuestionCard } from "~/components/QuestionCard";
 import type { Question } from "~/types";
+import { useNeuralDebug } from "~/hooks/useNeuralDebug";
+import { fetchQuestions } from "~/data/questionsResource";
 
 function shuffleArray<T>(array: T[]): T[] {
   const newArray = [...array];
@@ -13,52 +14,78 @@ function shuffleArray<T>(array: T[]): T[] {
   return newArray;
 }
 
-export default function Quiz() {
-  const [questions, setQuestions] = useState<Question[]>([]);
+// Simulated async verification
+async function verifyAnswer(selected: string, correct: string): Promise<boolean> {
+    return new Promise((resolve) => {
+        setTimeout(() => resolve(selected === correct), 50); // Small delay to demonstrate optimistic UI
+    });
+}
+
+function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
+  useNeuralDebug("QuizGame");
+  const [questions, setQuestions] = useState<Question[]>(initialQuestions);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(0);
   const [resetKey, setResetKey] = useState(0);
 
+  const [optimisticScore, addOptimisticScore] = useOptimistic(
+      score,
+      (state, amount: number) => state + amount
+  );
+
+  const [isPending, startTransition] = useTransition();
+
   useEffect(() => {
-    // Shuffle only on client side to avoid hydration mismatch
-    setQuestions(shuffleArray(questionsData as Question[]));
-  }, [resetKey]);
+    // Shuffle on mount/reset
+    startTransition(() => {
+        setQuestions(shuffleArray(initialQuestions));
+    });
+  }, [initialQuestions, resetKey]);
 
   const currentQuestion = questions[currentQuestionIndex];
 
   const handleNext = () => {
-    if (selectedOption === currentQuestion.answer) {
-      setScore(score + 1);
-    }
+    startTransition(() => {
+        setSelectedOption(null);
+        setShowResult(false);
 
-    setSelectedOption(null);
-    setShowResult(false);
-
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
-      alert(`Quiz finished! Score: ${score + (selectedOption === currentQuestion.answer ? 1 : 0)}/${questions.length} uwu`);
-      setCurrentQuestionIndex(0);
-      setScore(0);
-      setResetKey(prev => prev + 1);
-    }
+        if (currentQuestionIndex < questions.length - 1) {
+          setCurrentQuestionIndex(currentQuestionIndex + 1);
+        } else {
+          alert(`Quiz finished! Score: ${score + (selectedOption === currentQuestion.answer ? 1 : 0)}/${questions.length} uwu`);
+          setCurrentQuestionIndex(0);
+          setScore(0);
+          setResetKey(prev => prev + 1);
+        }
+    });
   };
 
-  const handleCheck = () => {
+  const handleCheck = async () => {
       if (selectedOption) {
+          // Optimistic update
+          if (selectedOption === currentQuestion.answer) {
+              startTransition(() => {
+                  addOptimisticScore(1);
+              });
+          }
+
+          // Real check (simulated async)
+          const isCorrect = await verifyAnswer(selectedOption, currentQuestion.answer);
+
+          if (isCorrect) {
+              setScore(s => s + 1);
+          }
           setShowResult(true);
       }
   };
 
-  // While questions are being shuffled (initial render), show loading or nothing.
-  // Since we start with empty array, currentQuestion will be undefined.
-  if (questions.length === 0) {
+  if (!currentQuestion) {
       return (
-          <div className="min-h-screen bg-background text-foreground flex flex-col items-center py-10 px-4">
-              <div className="text-xl text-muted-foreground">Shuffling questions... qwq</div>
-          </div>
+        <div className="min-h-screen bg-background text-foreground flex flex-col items-center py-10 px-4">
+            <div className="text-xl text-muted-foreground">Preparing questions... qwq</div>
+        </div>
       );
   }
 
@@ -72,12 +99,14 @@ export default function Quiz() {
             &larr; Back to Den
         </Link>
         <h1 className="text-3xl font-bold text-foreground">Question {currentQuestionIndex + 1} / {questions.length}</h1>
-        <div className="mt-2 text-muted-foreground font-medium" aria-live="polite">Score: {score}</div>
+        <div className="mt-2 text-muted-foreground font-medium" aria-live="polite">
+            Score: {optimisticScore}
+            {optimisticScore !== score && <span className="text-xs ml-2 opacity-50">(saving...)</span>}
+        </div>
       </header>
 
       <main className="w-full flex flex-col items-center">
-        {currentQuestion ? (
-          <div className="w-full flex flex-col items-center gap-6">
+        <div className={`w-full flex flex-col items-center gap-6 ${isPending ? 'opacity-70' : ''}`}>
             <QuestionCard
               question={currentQuestion}
               selectedOption={selectedOption}
@@ -103,11 +132,26 @@ export default function Quiz() {
                     </button>
                 )}
             </div>
-          </div>
-        ) : (
-            <div className="text-xl text-muted-foreground">Loading questions... or maybe none found qwq</div>
-        )}
+        </div>
       </main>
     </div>
   );
+}
+
+function QuizContainer() {
+    // use() hook to unwrap promise (Suspense)
+    const questions = use(fetchQuestions());
+    return <QuizGame initialQuestions={questions} />;
+}
+
+export default function Quiz() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
+                <div className="text-2xl font-bold animate-pulse text-primary">Loading Furry Questions... 🐾</div>
+            </div>
+        }>
+            <QuizContainer />
+        </Suspense>
+    );
 }

@@ -1,4 +1,5 @@
 import type { Question } from "~/types";
+import { useNeuralDebug } from "~/hooks/useNeuralDebug";
 
 interface QuestionCardProps {
   question: Question;
@@ -8,16 +9,20 @@ interface QuestionCardProps {
 }
 
 export function QuestionCard({ question, selectedOption, onSelectOption, showResult }: QuestionCardProps) {
+  useNeuralDebug("QuestionCard");
   const options = ['a', 'b', 'c', 'd'];
 
   return (
     <div className="bg-card text-card-foreground rounded-3xl shadow-lg p-8 border border-border max-w-2xl w-full">
       <h2
-        className="text-xl font-bold mb-6 leading-relaxed"
+        className="text-xl font-bold mb-2 leading-relaxed"
         id="question-text"
       >
         {question.question}
       </h2>
+      <p className="text-muted-foreground text-sm italic mb-6">
+        {question.original_question}
+      </p>
 
       {question.image && (
         <div className="mb-4">
