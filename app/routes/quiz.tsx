@@ -1,16 +1,31 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import questionsData from "../data/furry_questions.json";
 import { QuestionCard } from "~/components/QuestionCard";
 import type { Question } from "~/types";
 
+function shuffleArray<T>(array: T[]): T[] {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+}
+
 export default function Quiz() {
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(0);
+  const [resetKey, setResetKey] = useState(0);
 
-  const questions: Question[] = useMemo(() => questionsData as Question[], []);
+  useEffect(() => {
+    // Shuffle only on client side to avoid hydration mismatch
+    setQuestions(shuffleArray(questionsData as Question[]));
+  }, [resetKey]);
+
   const currentQuestion = questions[currentQuestionIndex];
 
   const handleNext = () => {
@@ -27,6 +42,7 @@ export default function Quiz() {
       alert(`Quiz finished! Score: ${score + (selectedOption === currentQuestion.answer ? 1 : 0)}/${questions.length} uwu`);
       setCurrentQuestionIndex(0);
       setScore(0);
+      setResetKey(prev => prev + 1);
     }
   };
 
@@ -35,6 +51,16 @@ export default function Quiz() {
           setShowResult(true);
       }
   };
+
+  // While questions are being shuffled (initial render), show loading or nothing.
+  // Since we start with empty array, currentQuestion will be undefined.
+  if (questions.length === 0) {
+      return (
+          <div className="min-h-screen bg-background text-foreground flex flex-col items-center py-10 px-4">
+              <div className="text-xl text-muted-foreground">Shuffling questions... qwq</div>
+          </div>
+      );
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col items-center py-10 px-4 transition-colors duration-300">
