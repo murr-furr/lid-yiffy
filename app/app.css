@@ -1,15 +1,123 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+  --font-sans: "Comic Sans MS", "Chalkboard SE", "Inter", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+:root {
+  /* HSL values wrapped in hsl() function for Tailwind v4 */
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(20 14.3% 4.1%);
+
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(20 14.3% 4.1%);
+
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(20 14.3% 4.1%);
+
+  /* Orange Primary */
+  --primary: hsl(24.6 95% 53.1%);
+  --primary-foreground: hsl(60 9.1% 97.8%);
+
+  /* Slate/Zinc Secondary */
+  --secondary: hsl(60 4.8% 95.9%);
+  --secondary-foreground: hsl(24 9.8% 10%);
+
+  --muted: hsl(60 4.8% 95.9%);
+  --muted-foreground: hsl(25 5.3% 44.7%);
+
+  --accent: hsl(60 4.8% 95.9%);
+  --accent-foreground: hsl(24 9.8% 10%);
+
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(60 9.1% 97.8%);
+
+  --border: hsl(20 5.9% 90%);
+  --input: hsl(20 5.9% 90%);
+  --ring: hsl(24.6 95% 53.1%);
+
+  --radius: 0.75rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: hsl(20 14.3% 4.1%);
+    --foreground: hsl(60 9.1% 97.8%);
+
+    --card: hsl(20 14.3% 4.1%);
+    --card-foreground: hsl(60 9.1% 97.8%);
+
+    --popover: hsl(20 14.3% 4.1%);
+    --popover-foreground: hsl(60 9.1% 97.8%);
+
+    /* Darker Orange Primary */
+    --primary: hsl(20.5 90.2% 48.2%);
+    --primary-foreground: hsl(60 9.1% 97.8%);
+
+    --secondary: hsl(12 6.5% 15.1%);
+    --secondary-foreground: hsl(60 9.1% 97.8%);
+
+    --muted: hsl(12 6.5% 15.1%);
+    --muted-foreground: hsl(24 5.4% 63.9%);
+
+    --accent: hsl(12 6.5% 15.1%);
+    --accent-foreground: hsl(60 9.1% 97.8%);
+
+    --destructive: hsl(0 62.8% 30.6%);
+    --destructive-foreground: hsl(60 9.1% 97.8%);
+
+    --border: hsl(12 6.5% 15.1%);
+    --input: hsl(12 6.5% 15.1%);
+    --ring: hsl(20.5 90.2% 48.2%);
+  }
 }
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  @apply bg-background text-foreground;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+.furry-gradient {
+  background: linear-gradient(135deg, #FF9900 0%, #FF69B4 100%);
+}
+
+.paw-print {
+  width: 20px;
+  height: 20px;
+  background-color: currentColor;
+  border-radius: 50%;
+  position: relative;
 }
