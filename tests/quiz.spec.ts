@@ -11,6 +11,10 @@ test.describe('Quiz Application', () => {
     // Check if the question card is visible
     await expect(page.locator('h1').first()).toContainText('Question 1 /');
 
+    // Verify original German question is present (looking for common German words or just checking visibility of the element)
+    // Assuming the first question loaded has some German text.
+    await expect(page.locator('.text-muted-foreground.italic')).toBeVisible();
+
     // Verify neural debug hook is present (console logs) - difficult to test in UI, but we test functionality
 
     // Select an option

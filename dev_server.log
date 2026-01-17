@@ -4,3 +4,11 @@
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose
+10:33:11 AM [vite] (client) hmr update /app/components/QuestionCard.tsx
+10:33:11 AM [vite] (client) hmr update /app/components/QuestionCard.tsx
+10:33:11 AM [vite] (client) hmr update /app/app.css, /app/components/QuestionCard.tsx
+10:33:11 AM [vite] (ssr) page reload app/components/QuestionCard.tsx
+10:33:17 AM [vite] (client) hmr update /app/app.css
+10:33:17 AM [vite] (ssr) hmr update /app/app.css
+10:33:41 AM [vite] (client) page reload playwright-report/index.html
+10:33:41 AM [vite] (ssr) hmr update /app/app.css
