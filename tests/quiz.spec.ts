@@ -13,7 +13,7 @@ test.describe('Quiz Application', () => {
 
     // Verify original German question is present (looking for common German words or just checking visibility of the element)
     // Assuming the first question loaded has some German text.
-    await expect(page.locator('.text-muted-foreground.italic')).toBeVisible();
+    await expect(page.locator('.text-muted-foreground.italic').first()).toBeVisible();
 
     // Verify neural debug hook is present (console logs) - difficult to test in UI, but we test functionality
 

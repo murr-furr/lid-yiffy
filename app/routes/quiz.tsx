@@ -81,6 +81,48 @@ function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
       }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (isPending) return;
+
+      const key = e.key.toLowerCase();
+      const isInteractiveElement =
+        document.activeElement instanceof HTMLButtonElement ||
+        document.activeElement instanceof HTMLAnchorElement ||
+        document.activeElement instanceof HTMLInputElement;
+
+      if (key === "enter" && !isInteractiveElement) {
+        e.preventDefault();
+        if (showResult) {
+          handleNext();
+        } else if (selectedOption) {
+          handleCheck();
+        }
+        return;
+      }
+
+      if (!showResult) {
+        const optionMap: Record<string, string> = {
+          "1": "a",
+          a: "a",
+          "2": "b",
+          b: "b",
+          "3": "c",
+          c: "c",
+          "4": "d",
+          d: "d",
+        };
+
+        if (optionMap[key]) {
+          setSelectedOption(optionMap[key]);
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [showResult, selectedOption, isPending, handleNext, handleCheck]); // Re-bind when state/handlers change
+
   if (!currentQuestion) {
       return (
         <div className="min-h-screen bg-background text-foreground flex flex-col items-center py-10 px-4">
