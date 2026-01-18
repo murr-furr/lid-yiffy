@@ -1,5 +1,4 @@
 import type { Question } from "~/types";
-import { useNeuralDebug } from "~/hooks/useNeuralDebug";
 
 interface QuestionCardProps {
   question: Question;
@@ -9,7 +8,6 @@ interface QuestionCardProps {
 }
 
 export function QuestionCard({ question, selectedOption, onSelectOption, showResult }: QuestionCardProps) {
-  useNeuralDebug("QuestionCard");
   const options = ['a', 'b', 'c', 'd'];
 
   return (

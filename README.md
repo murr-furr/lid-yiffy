@@ -1,24 +1,23 @@
-# Welcome to React Router!
+# Lid Yiffy - Furry Edition of Leben in Deutschland
 
-A modern, production-ready template for building full-stack React applications using React Router.
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+A furry-themed version of the German citizenship test "Leben in Deutschland". This project is a web application built with [React Router](https://reactrouter.com/) and [React 19](https://react.dev/), designed to be fast, accessible, and fun.
 
 ## Features
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+- **Furry Themed**: Questions and UI adapted for a furry audience.
+- **Fast Performance**: Uses Suspense, React Compiler, and Optimistic UI for instant feedback.
+- **Accessible**: High contrast, keyboard navigation support, and screen reader friendly.
+- **Responsive**: Works great on mobile and desktop.
 
 ## Getting Started
 
+### Prerequisites
+
+- Node.js > 20
+
 ### Installation
 
-Install the dependencies:
+Install dependencies:
 
 ```bash
 npm install
@@ -26,62 +25,33 @@ npm install
 
 ### Development
 
-Start the development server with HMR:
+Run the development server:
 
 ```bash
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-## Building for Production
+## Building and Running Production
 
-Create a production build:
+To build the application for production:
 
 ```bash
 npm run build
 ```
 
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
+To verify the production build locally:
 
 ```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
+npm run start
 ```
+(Note: `npm run start` serves the build locally for testing purposes)
 
-The containerized application can be deployed to any platform that supports Docker, including:
+## Deployment
 
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+The project is configured for deployment on GitHub Pages (SPA mode) or any static hosting service.
 
 ---
 
-Built with ❤️ using React Router.
+Built with ❤️ and 🐾 using React Router.
