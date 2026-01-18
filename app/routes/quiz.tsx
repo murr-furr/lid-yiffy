@@ -2,7 +2,6 @@ import { useState, useEffect, useOptimistic, useTransition, use, Suspense } from
 import { Link } from "react-router";
 import { QuestionCard } from "~/components/QuestionCard";
 import type { Question } from "~/types";
-import { useNeuralDebug } from "~/hooks/useNeuralDebug";
 import { fetchQuestions } from "~/data/questionsResource";
 
 function shuffleArray<T>(array: T[]): T[] {
@@ -22,7 +21,6 @@ async function verifyAnswer(selected: string, correct: string): Promise<boolean>
 }
 
 function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
-  useNeuralDebug("QuizGame");
   const [questions, setQuestions] = useState<Question[]>(initialQuestions);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
