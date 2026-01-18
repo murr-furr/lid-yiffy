@@ -41,7 +41,7 @@ export function QuestionCard({ question, selectedOption, onSelectOption, showRes
           const isSelected = selectedOption === opt;
           const isCorrect = question.answer === opt;
 
-          let cardClass = "w-full text-left p-4 rounded-xl border transition-all duration-100 transform ";
+          let cardClass = "w-full text-left p-4 rounded-xl border transition-all duration-100 transform flex items-center ";
 
           // Focus styles
           cardClass += "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ";
@@ -78,7 +78,17 @@ export function QuestionCard({ question, selectedOption, onSelectOption, showRes
               aria-label={`Option ${opt.toUpperCase()}: ${question.options[opt as keyof typeof question.options]}`}
             >
               <span className="font-bold mr-2 uppercase text-lg text-primary">{opt})</span>
-              {question.options[opt as keyof typeof question.options]}
+              <span className="flex-1">
+                {question.options[opt as keyof typeof question.options]}
+              </span>
+              {!showResult && (
+                <span
+                  className="hidden sm:inline-block ml-3 text-xs font-mono text-muted-foreground/70 bg-muted/50 border border-border px-2 py-0.5 rounded shadow-[0px_1px_0px_0px_rgba(0,0,0,0.1)] select-none"
+                  aria-hidden="true"
+                >
+                  {opt === "a" ? "1" : opt === "b" ? "2" : opt === "c" ? "3" : "4"}
+                </span>
+              )}
             </button>
           );
         })}
