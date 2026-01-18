@@ -139,6 +139,17 @@ function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
             &larr; Back to Den
         </Link>
         <h1 className="text-3xl font-bold text-foreground">Question {currentQuestionIndex + 1} / {questions.length}</h1>
+        <div className="w-full max-w-2xl mx-auto h-2 bg-secondary rounded-full overflow-hidden mt-4 mb-2">
+            <div
+                className="h-full bg-primary transition-all duration-500 ease-out"
+                style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
+                role="progressbar"
+                aria-valuenow={currentQuestionIndex + 1}
+                aria-valuemin={1}
+                aria-valuemax={questions.length}
+                aria-label={`Question ${currentQuestionIndex + 1} of ${questions.length}`}
+            />
+        </div>
         <div className="mt-2 text-muted-foreground font-medium" aria-live="polite">
             Score: {optimisticScore}
             {optimisticScore !== score && <span className="text-xs ml-2 opacity-50">(saving...)</span>}
