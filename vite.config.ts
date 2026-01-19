@@ -23,6 +23,7 @@ export default defineConfig({
     reactRouter(),
     babel({
       filter: /\.[jt]sx?$/,
+      exclude: /node_modules/,
       babelConfig: {
         babelrc: true,
         configFile: true,
