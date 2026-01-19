@@ -1,4 +1,4 @@
-import { useState, useEffect, useOptimistic, useTransition, use, Suspense, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useOptimistic, useTransition, use, Suspense, useRef } from "react";
 import { Link } from "react-router";
 import { QuestionCard } from "~/components/QuestionCard";
 import type { Question } from "~/types";
@@ -81,7 +81,7 @@ function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
 
   // Keep a stable reference to the latest handlers and state
   const handlersRef = useRef({ handleNext, handleCheck, showResult, selectedOption, isPending, setSelectedOption });
-  useEffect(() => {
+  useLayoutEffect(() => {
       handlersRef.current = { handleNext, handleCheck, showResult, selectedOption, isPending, setSelectedOption };
   });
 
