@@ -7,6 +7,7 @@ import viteCompression from "vite-plugin-compression";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
+  base: "/lid/",
   build: {
     target: "es2015",
     cssMinify: "lightningcss",

@@ -36,7 +36,7 @@ test.describe('Full Quiz Completion', () => {
     });
 
     log('Navigating to quiz page...');
-    await page.goto('/quiz');
+    await page.goto('quiz');
 
     // Wait for loading to finish
     await expect(page.locator('text=Loading Furry Questions')).toBeHidden({ timeout: 15000 });
