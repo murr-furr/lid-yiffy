@@ -1,4 +1,4 @@
-import { useState, useEffect, useOptimistic, useTransition, use, Suspense } from "react";
+import { useState, useEffect, useLayoutEffect, useOptimistic, useTransition, use, Suspense, useRef } from "react";
 import { Link } from "react-router";
 import { QuestionCard } from "~/components/QuestionCard";
 import type { Question } from "~/types";
@@ -79,8 +79,17 @@ function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
       }
   };
 
+  // Keep a stable reference to the latest handlers and state
+  const handlersRef = useRef({ handleNext, handleCheck, showResult, selectedOption, isPending, setSelectedOption });
+  useLayoutEffect(() => {
+      handlersRef.current = { handleNext, handleCheck, showResult, selectedOption, isPending, setSelectedOption };
+  });
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Access the latest state/handlers via the ref
+      const { handleNext, handleCheck, showResult, selectedOption, isPending, setSelectedOption } = handlersRef.current;
+
       if (isPending) return;
 
       const key = e.key.toLowerCase();
@@ -118,8 +127,10 @@ function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [showResult, selectedOption, isPending, handleNext, handleCheck]); // Re-bind when state/handlers change
+    return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []); // Empty dependency array ensures this effect runs only once
 
   if (!currentQuestion) {
       return (
