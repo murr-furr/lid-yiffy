@@ -2,6 +2,11 @@
   "name": "",
   "private": true,
   "type": "module",
+  "browserslist": [
+    "> 0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
@@ -11,12 +16,16 @@
   "dependencies": {
     "@react-router/node": "7.12.0",
     "@react-router/serve": "7.12.0",
+    "core-js": "^3.47.0",
     "isbot": "^5.1.31",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-router": "7.12.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.28.6",
+    "@babel/preset-react": "^7.28.5",
+    "@babel/preset-typescript": "^7.28.5",
     "@playwright/test": "^1.57.0",
     "@react-router/dev": "7.12.0",
     "@tailwindcss/vite": "^4.1.13",
@@ -24,9 +33,14 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "babel-plugin-react-compiler": "^1.0.0",
+    "lightningcss": "^1.30.2",
+    "rollup-plugin-visualizer": "^6.0.5",
     "tailwindcss": "^4.1.13",
+    "terser": "^5.46.0",
     "typescript": "^5.9.2",
     "vite": "^7.1.7",
+    "vite-plugin-babel": "^1.4.1",
+    "vite-plugin-compression": "^0.5.1",
     "vite-tsconfig-paths": "^5.1.4"
   }
 }

@@ -7,9 +7,9 @@ interface QuestionCardProps {
   showResult: boolean;
 }
 
-export function QuestionCard({ question, selectedOption, onSelectOption, showResult }: QuestionCardProps) {
-  const options = ['a', 'b', 'c', 'd'];
+const options = ['a', 'b', 'c', 'd'];
 
+export function QuestionCard({ question, selectedOption, onSelectOption, showResult }: QuestionCardProps) {
   return (
     <div className="bg-card text-card-foreground rounded-3xl shadow-lg p-8 border border-border max-w-2xl w-full">
       <h2
