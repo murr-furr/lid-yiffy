@@ -101,14 +101,44 @@ function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
         document.activeElement instanceof HTMLAnchorElement ||
         document.activeElement instanceof HTMLInputElement;
 
-      if (key === "enter" && !isInteractiveElement) {
-        e.preventDefault();
+      if (key === "enter") {
+        // Check if the active element is one of the option buttons
+        const isOptionButton =
+          document.activeElement instanceof HTMLButtonElement &&
+          document.activeElement.getAttribute("role") === "radio";
+        const isSelectedOptionButton =
+          isOptionButton &&
+          document.activeElement.getAttribute("aria-checked") === "true";
+
         if (showResult) {
-          handleNext();
-        } else if (selectedOption) {
-          handleCheck();
+          // Prevent hijacking Enter if user is interacting with other elements (e.g. Back link)
+          if (!isInteractiveElement) {
+            e.preventDefault();
+            handleNext();
+          }
+          return;
         }
-        return;
+
+        if (selectedOption) {
+          // If we are focused on the ALREADY SELECTED option button, treat Enter as Submit.
+          if (isSelectedOptionButton) {
+            e.preventDefault();
+            handleCheck();
+            return;
+          }
+
+          // If we are focused on a DIFFERENT option button, let it select (default behavior).
+          if (isOptionButton && !isSelectedOptionButton) {
+            return;
+          }
+
+          // If focus is NOT on an interactive element (e.g. body), Submit.
+          if (!isInteractiveElement) {
+            e.preventDefault();
+            handleCheck();
+            return;
+          }
+        }
       }
 
       if (!showResult) {
