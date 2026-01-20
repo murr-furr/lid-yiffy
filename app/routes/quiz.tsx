@@ -184,16 +184,22 @@ function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
                     <button
                         onClick={handleCheck}
                         disabled={!selectedOption}
-                        className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-3 px-8 rounded-full shadow-lg transform transition active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-3 px-8 rounded-full shadow-lg transform transition active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 flex items-center gap-2"
                     >
                         Check Answer OwO
+                        <span className="hidden sm:inline-block text-[10px] font-mono bg-primary-foreground/20 text-primary-foreground border border-primary-foreground/30 px-1.5 py-0.5 rounded shadow-sm opacity-90" aria-hidden="true">
+                            ↵ Enter
+                        </span>
                     </button>
                 ) : (
                     <button
                         onClick={handleNext}
-                        className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 flex items-center gap-2"
                     >
                         Next Question &rarr;
+                        <span className="hidden sm:inline-block text-[10px] font-mono bg-white/20 text-white border border-white/30 px-1.5 py-0.5 rounded shadow-sm opacity-90" aria-hidden="true">
+                            ↵ Enter
+                        </span>
                     </button>
                 )}
             </div>
