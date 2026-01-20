@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { fetchQuestions } from "~/data/questionsResource";
 
 export default function Home() {
   return (
@@ -14,6 +15,9 @@ export default function Home() {
         <div className="space-y-4">
           <Link
             to="/quiz"
+            prefetch="intent"
+            onMouseEnter={() => fetchQuestions()}
+            onFocus={() => fetchQuestions()}
             className="block w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-4 px-6 rounded-2xl shadow-lg transform transition hover:scale-105 active:scale-95 text-xl"
           >
             Start Quiz 🦊
