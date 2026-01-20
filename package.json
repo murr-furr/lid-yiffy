@@ -34,6 +34,7 @@
     "@types/react-dom": "^19.2.3",
     "babel-plugin-react-compiler": "^1.0.0",
     "lightningcss": "^1.30.2",
+    "playwright": "^1.57.0",
     "rollup-plugin-visualizer": "^6.0.5",
     "tailwindcss": "^4.1.13",
     "terser": "^5.46.0",
