@@ -21,20 +21,6 @@ test.describe('Full Quiz Completion', () => {
         fs.appendFileSync(logFile, `${new Date().toISOString()}: ${msg}\n`);
     };
 
-    let quizFinished = false;
-    let finalScoreMessage = '';
-
-    // Handle the "Quiz finished" alert
-    page.on('dialog', async dialog => {
-      const message = dialog.message();
-      log(`Dialog appeared: ${message}`);
-      if (message.includes('Quiz finished!')) {
-        quizFinished = true;
-        finalScoreMessage = message;
-      }
-      await dialog.dismiss();
-    });
-
     log('Navigating to quiz page...');
     await page.goto('quiz');
 
@@ -81,21 +67,18 @@ test.describe('Full Quiz Completion', () => {
         await expect(nextButton).toBeVisible();
 
         // Click "Next Question"
-        // If it's the last question, this will trigger the alert and reset the quiz.
         await nextButton.click();
-
-        // Small delay to ensure transitions don't get stuck (Playwright is usually fast)
-        // verifyAnswer has 50ms delay.
     }
 
-    // Wait for the dialog to be processed
-    await page.waitForTimeout(2000);
+    // After the loop, we should see the Result Card
+    const resultHeader = page.locator('h2', { hasText: 'Quiz Completed! 🎉' });
+    await expect(resultHeader).toBeVisible();
 
-    if (!quizFinished) {
-        throw new Error('Quiz finished dialog did not appear after answering all questions.');
-    }
+    const scoreText = await page.locator('p', { hasText: 'You scored' }).innerText();
+    log(`Quiz completed successfully! Result: ${scoreText}`);
 
-    log(`Quiz completed successfully! Result: ${finalScoreMessage}`);
+    // Click "Play Again" to reset
+    await page.getByText('Play Again 🔄').click();
 
     // Verify that the quiz reset (back to question 1)
     await expect(page.locator('header h1')).toContainText('Question 1 /');

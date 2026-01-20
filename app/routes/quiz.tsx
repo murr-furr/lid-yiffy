@@ -28,6 +28,7 @@ function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showResult, setShowResult] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
   const [score, setScore] = useState(0);
   const [resetKey, setResetKey] = useState(0);
 
@@ -49,17 +50,24 @@ function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
 
   const handleNext = () => {
     startTransition(() => {
-        setSelectedOption(null);
-        setShowResult(false);
-
         if (currentQuestionIndex < questions.length - 1) {
+          setSelectedOption(null);
+          setShowResult(false);
           setCurrentQuestionIndex(currentQuestionIndex + 1);
         } else {
-          alert(`Quiz finished! Score: ${score + (selectedOption === currentQuestion.answer ? 1 : 0)}/${questions.length} uwu`);
-          setCurrentQuestionIndex(0);
-          setScore(0);
-          setResetKey(prev => prev + 1);
+          setIsFinished(true);
         }
+    });
+  };
+
+  const handleRestart = () => {
+    startTransition(() => {
+        setIsFinished(false);
+        setCurrentQuestionIndex(0);
+        setScore(0);
+        setSelectedOption(null);
+        setShowResult(false);
+        setResetKey(prev => prev + 1);
     });
   };
 
@@ -83,15 +91,15 @@ function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
   };
 
   // Keep a stable reference to the latest handlers and state
-  const handlersRef = useRef({ handleNext, handleCheck, showResult, selectedOption, isPending, setSelectedOption });
+  const handlersRef = useRef({ handleNext, handleCheck, showResult, selectedOption, isPending, setSelectedOption, isFinished, handleRestart });
   useLayoutEffect(() => {
-      handlersRef.current = { handleNext, handleCheck, showResult, selectedOption, isPending, setSelectedOption };
+      handlersRef.current = { handleNext, handleCheck, showResult, selectedOption, isPending, setSelectedOption, isFinished, handleRestart };
   });
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Access the latest state/handlers via the ref
-      const { handleNext, handleCheck, showResult, selectedOption, isPending, setSelectedOption } = handlersRef.current;
+      const { handleNext, handleCheck, showResult, selectedOption, isPending, setSelectedOption, isFinished, handleRestart } = handlersRef.current;
 
       if (isPending) return;
 
@@ -102,13 +110,22 @@ function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
         document.activeElement instanceof HTMLInputElement;
 
       if (key === "enter") {
+        if (isFinished) {
+            if (!isInteractiveElement) {
+                e.preventDefault();
+                handleRestart();
+            }
+            return;
+        }
         // Check if the active element is one of the option buttons
+        const activeElement = document.activeElement;
         const isOptionButton =
-          document.activeElement instanceof HTMLButtonElement &&
-          document.activeElement.getAttribute("role") === "radio";
+          activeElement instanceof HTMLButtonElement &&
+          activeElement.getAttribute("role") === "radio";
         const isSelectedOptionButton =
           isOptionButton &&
-          document.activeElement.getAttribute("aria-checked") === "true";
+          activeElement instanceof HTMLButtonElement && // Re-check to satisfy TS if needed, or rely on isOptionButton implication
+          activeElement.getAttribute("aria-checked") === "true";
 
         if (showResult) {
           // Prevent hijacking Enter if user is interacting with other elements (e.g. Back link)
@@ -171,6 +188,37 @@ function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
             <div className="text-xl text-muted-foreground">Preparing questions... qwq</div>
         </div>
       );
+  }
+
+  if (isFinished) {
+    return (
+      <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center p-4">
+         <div className="bg-card text-card-foreground rounded-3xl shadow-lg p-8 border border-border max-w-lg w-full text-center">
+            <h2 className="text-3xl font-bold mb-4">Quiz Completed! 🎉</h2>
+            <p className="text-xl mb-6">
+              You scored <span className="font-bold text-primary">{score}</span> out of <span className="font-bold">{questions.length}</span>!
+            </p>
+            <div className="text-muted-foreground italic mb-8">
+               {score === questions.length ? "Flawless victory! UwU" : score > questions.length / 2 ? "Great job! Keep it up! 🦊" : "Don't give up! Try again! 🐾"}
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={handleRestart}
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-3 px-8 rounded-full shadow-md transition transform active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                Play Again 🔄
+              </button>
+              <Link
+                to="/"
+                className="block w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground font-bold py-3 px-8 rounded-full shadow-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                Back to Den 🏠
+              </Link>
+            </div>
+         </div>
+      </div>
+    );
   }
 
   return (
