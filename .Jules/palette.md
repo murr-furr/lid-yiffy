@@ -9,3 +9,7 @@
 ## 2024-05-24 - Action Button Hints
 **Learning:** Users often miss that primary action buttons (like "Check Answer") can be triggered by "Enter". Adding a consistent visual hint (e.g., `↵ Enter`) next to the button text reinforces the keyboard-first workflow established by the option keys.
 **Action:** Add visual hints for the "Enter" key on primary action buttons in keyboard-heavy interfaces, ensuring they are `aria-hidden` to avoid screen reader redundancy.
+
+## 2024-05-25 - Native Alerts vs. Result Cards
+**Learning:** Using native `alert()` for completion states interrupts the user experience and is visually jarring. In-page result cards provide a smoother transition, better branding opportunities, and improved accessibility.
+**Action:** Replace completion-state `alert()` calls with dedicated result components that match the application's design system and offer clear "Play Again" actions.
