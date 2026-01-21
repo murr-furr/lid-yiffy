@@ -79,8 +79,13 @@ export const QuestionCard = memo(function QuestionCard({ question, selectedOptio
               aria-label={`Option ${opt.toUpperCase()}: ${question.options[opt as keyof typeof question.options]}`}
             >
               <span className="font-bold mr-2 uppercase text-lg text-primary">{opt})</span>
-              <span className="flex-1">
-                {question.options[opt as keyof typeof question.options]}
+              <span className="flex-1 text-left flex flex-col justify-center min-h-[3rem]">
+                <div className="font-medium">{question.options[opt as keyof typeof question.options]}</div>
+                {question.original_options && (
+                  <div className="text-sm text-muted-foreground/80 italic mt-0.5">
+                    {question.original_options[opt as keyof typeof question.options]}
+                  </div>
+                )}
               </span>
               {!showResult && (
                 <span
