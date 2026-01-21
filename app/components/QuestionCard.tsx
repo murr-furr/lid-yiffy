@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { Question } from "~/types";
 
 interface QuestionCardProps {
@@ -9,7 +10,9 @@ interface QuestionCardProps {
 
 const options = ['a', 'b', 'c', 'd'];
 
-export function QuestionCard({ question, selectedOption, onSelectOption, showResult }: QuestionCardProps) {
+// Optimized with React.memo to prevent unnecessary re-renders when parent state
+// (like score or optimistic UI updates) changes but props for this component remain the same.
+export const QuestionCard = memo(function QuestionCard({ question, selectedOption, onSelectOption, showResult }: QuestionCardProps) {
   return (
     <div className="bg-card text-card-foreground rounded-3xl shadow-lg p-8 border border-border max-w-2xl w-full">
       <h2
@@ -101,4 +104,4 @@ export function QuestionCard({ question, selectedOption, onSelectOption, showRes
       </div>
     </div>
   );
-}
+});
