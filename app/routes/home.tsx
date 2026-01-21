@@ -3,7 +3,7 @@ import { fetchQuestions } from "~/data/questionsResource";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background text-foreground text-center transition-colors duration-300">
+    <main id="main-content" className="min-h-screen flex flex-col items-center justify-center p-4 bg-background text-foreground text-center transition-colors duration-300">
       <div className="max-w-md w-full bg-card text-card-foreground p-10 rounded-3xl shadow-2xl border border-border transform rotate-1 hover:rotate-0 transition duration-500">
         <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-pink-500 bg-clip-text text-transparent">
           Life in Furland
@@ -30,6 +30,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
