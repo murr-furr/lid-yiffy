@@ -1,15 +1,3 @@
-## 2024-05-23 - Keyboard Shortcut Discoverability
-**Learning:** Adding keyboard shortcuts (1-4) is invisible without cues. Adding small visual hints (`[1]`) inside the buttons significantly improves discoverability and usability without cluttering the UI on mobile (hidden via CSS).
-**Action:** When adding hotkeys, always pair them with a visual indicator, responsive if possible.
-
-## 2024-05-24 - Visual Progress Indicators
-**Learning:** Adding a visual progress bar significantly improves user orientation in long processes. It provides immediate feedback and a sense of accomplishment without needing to read text.
-**Action:** Always include visual progress indicators for multi-step flows, ensuring they are accessible with `role="progressbar"`.
-
-## 2024-05-24 - Action Button Hints
-**Learning:** Users often miss that primary action buttons (like "Check Answer") can be triggered by "Enter". Adding a consistent visual hint (e.g., `↵ Enter`) next to the button text reinforces the keyboard-first workflow established by the option keys.
-**Action:** Add visual hints for the "Enter" key on primary action buttons in keyboard-heavy interfaces, ensuring they are `aria-hidden` to avoid screen reader redundancy.
-
-## 2024-05-25 - Native Alerts vs. Result Cards
-**Learning:** Using native `alert()` for completion states interrupts the user experience and is visually jarring. In-page result cards provide a smoother transition, better branding opportunities, and improved accessibility.
-**Action:** Replace completion-state `alert()` calls with dedicated result components that match the application's design system and offer clear "Play Again" actions.
+## 2024-05-22 - Skip to Content Link
+**Learning:** Adding a "Skip to main content" link requires `focus:absolute` and high z-index to be visible only on focus, but also needs `href` pointing to a valid ID on the `<main>` element of *every* page.
+**Action:** Always ensure the target ID (`#main-content`) exists on the main container of all route components (including error boundaries) when implementing skip links.

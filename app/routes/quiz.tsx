@@ -244,7 +244,7 @@ function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
         </div>
       </header>
 
-      <main className="w-full flex flex-col items-center">
+      <main id="main-content" className="w-full flex flex-col items-center">
         <div className={`w-full flex flex-col items-center gap-6 ${isPending ? 'opacity-70' : ''}`}>
             <QuestionCard
               question={currentQuestion}
