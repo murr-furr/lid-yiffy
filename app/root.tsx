@@ -50,6 +50,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <a
           href="#main-content"
+          onClick={(e) => {
+            const target = document.querySelector("#main-content");
+            if (target instanceof HTMLElement) {
+              e.preventDefault();
+              target.focus();
+              target.scrollIntoView();
+            }
+          }}
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 bg-primary text-primary-foreground px-4 py-2 rounded-md shadow-lg font-bold outline-none ring-2 ring-offset-2 ring-primary"
         >
           Skip to main content
@@ -91,7 +99,11 @@ export function ErrorBoundary() {
   }
 
   return (
-    <main id="main-content" className="min-h-screen pt-16 p-4 container mx-auto flex flex-col items-center justify-center text-center bg-background text-foreground">
+    <main
+      id="main-content"
+      tabIndex={-1}
+      className="min-h-screen pt-16 p-4 container mx-auto flex flex-col items-center justify-center text-center bg-background text-foreground focus:outline-none"
+    >
       <div className="text-8xl mb-6 animate-bounce">😿</div>
       <h1 className="text-4xl font-bold text-primary mb-4 font-comic">{message}</h1>
       <p className="text-xl mb-8 max-w-lg">{details}</p>
