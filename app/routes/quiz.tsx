@@ -6,11 +6,14 @@ import { fetchQuestions } from "~/data/questionsResource";
 
 function shuffleArray<T>(array: T[]): T[] {
   const newArray = [...array];
-  const randomBuffer = new Uint32Array(1);
-  for (let i = newArray.length - 1; i > 0; i--) {
-    // Use crypto.getRandomValues for better randomness (Sentinel security enhancement)
-    crypto.getRandomValues(randomBuffer);
-    const j = randomBuffer[0] % (i + 1);
+  const n = newArray.length;
+  // Optimize: Allocate random buffer once and batch call
+  // This reduces syscall overhead compared to calling getRandomValues inside the loop
+  const randomBuffer = new Uint32Array(n);
+  crypto.getRandomValues(randomBuffer);
+
+  for (let i = n - 1; i > 0; i--) {
+    const j = randomBuffer[i] % (i + 1);
     [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
   }
   return newArray;
@@ -24,13 +27,13 @@ async function verifyAnswer(selected: string, correct: string): Promise<boolean>
 }
 
 function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
-  const [questions, setQuestions] = useState<Question[]>(initialQuestions);
+  // Optimize: Lazy initialization to avoid double render and FOUC
+  const [questions, setQuestions] = useState<Question[]>(() => shuffleArray(initialQuestions));
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [score, setScore] = useState(0);
-  const [resetKey, setResetKey] = useState(0);
 
   const [optimisticScore, addOptimisticScore] = useOptimistic(
       score,
@@ -38,13 +41,6 @@ function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
   );
 
   const [isPending, startTransition] = useTransition();
-
-  useEffect(() => {
-    // Shuffle on mount/reset
-    startTransition(() => {
-        setQuestions(shuffleArray(initialQuestions));
-    });
-  }, [initialQuestions, resetKey]);
 
   const currentQuestion = questions[currentQuestionIndex];
 
@@ -67,7 +63,7 @@ function QuizGame({ initialQuestions }: { initialQuestions: Question[] }) {
         setScore(0);
         setSelectedOption(null);
         setShowResult(false);
-        setResetKey(prev => prev + 1);
+        setQuestions(shuffleArray(initialQuestions));
     });
   };
 
