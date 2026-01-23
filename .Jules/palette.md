@@ -13,3 +13,7 @@
 ## 2024-05-25 - Native Alerts vs. Result Cards
 **Learning:** Using native `alert()` for completion states interrupts the user experience and is visually jarring. In-page result cards provide a smoother transition, better branding opportunities, and improved accessibility.
 **Action:** Replace completion-state `alert()` calls with dedicated result components that match the application's design system and offer clear "Play Again" actions.
+
+## 2024-05-25 - Skip to Main Content
+**Learning:** Adding "Skip to main content" links requires coordination between the global layout (where the link lives) and individual routes (which must provide the target ID).
+**Action:** When implementing skip links, audit all route components to ensure they have a valid target element with the correct ID.

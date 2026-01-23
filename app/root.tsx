@@ -48,6 +48,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:shadow-lg focus:font-bold focus:outline-none focus:ring-2 focus:ring-ring"
+        >
+          Skip to main content
+        </a>
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -85,7 +91,10 @@ export function ErrorBoundary() {
   }
 
   return (
-    <main className="min-h-screen pt-16 p-4 container mx-auto flex flex-col items-center justify-center text-center bg-background text-foreground">
+    <main
+      id="main-content"
+      className="min-h-screen pt-16 p-4 container mx-auto flex flex-col items-center justify-center text-center bg-background text-foreground"
+    >
       <div className="text-8xl mb-6 animate-bounce">😿</div>
       <h1 className="text-4xl font-bold text-primary mb-4 font-comic">{message}</h1>
       <p className="text-xl mb-8 max-w-lg">{details}</p>
