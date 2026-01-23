@@ -1,7 +1,13 @@
+import { useEffect } from "react";
 import { Link } from "react-router";
 import { fetchQuestions } from "~/data/questionsResource";
 
 export default function Home() {
+  // Preload questions on mount to minimize latency when starting the quiz
+  useEffect(() => {
+    fetchQuestions();
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background text-foreground text-center transition-colors duration-300">
       <div className="max-w-md w-full bg-card text-card-foreground p-10 rounded-3xl shadow-2xl border border-border transform rotate-1 hover:rotate-0 transition duration-500">
